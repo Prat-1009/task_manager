@@ -33,6 +33,17 @@ db.serialize(() => {
       FOREIGN KEY(createdBy) REFERENCES users(id) ON DELETE CASCADE
     )`
   );
+
+  db.run(
+    `CREATE TABLE IF NOT EXISTS password_resets (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NOT NULL,
+      token TEXT NOT NULL,
+      expiresAt DATETIME NOT NULL,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(userId) REFERENCES users(id) ON DELETE CASCADE
+    )`
+  );
 });
 
 export const runAsync = (sql, params = []) =>
