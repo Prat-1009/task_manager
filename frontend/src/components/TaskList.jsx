@@ -7,6 +7,7 @@ export default function TaskList() {
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
   const [data, setData] = useState({ items: [], total: 0, page: 1, limit: 10 });
+  const [busyId, setBusyId] = useState(null);
 
   const load = async (p = page) => {
     const params = { page: p, limit: data.limit };
@@ -22,6 +23,20 @@ export default function TaskList() {
   }, []);
 
   const totalPages = Math.ceil(data.total / data.limit) || 1;
+
+  const onDelete = async (id) => {
+    const ok = window.confirm('Delete this task?');
+    if (!ok) return;
+    try {
+      setBusyId(id);
+      await api.delete(`/tasks/${id}`);
+      await load(page);
+    } catch (err) {
+      alert(err.response?.data?.message || 'Delete failed');
+    } finally {
+      setBusyId(null);
+    }
+  };
 
   return (
     <div>
@@ -45,6 +60,9 @@ export default function TaskList() {
             </div>
             <div>
               <Link to={`/tasks/${t.id}`}>Edit</Link>
+              <button style={{ marginLeft: 8 }} onClick={() => onDelete(t.id)} disabled={busyId === t.id}>
+                {busyId === t.id ? 'Deleting...' : 'Delete'}
+              </button>
             </div>
           </li>
         ))}
