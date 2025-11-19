@@ -37,14 +37,14 @@ export default function TaskList() {
       </div>
       <ul className="task-list">
         {data.items.map((t) => (
-          <li key={t._id} className="task-item">
+          <li key={t.id} className="task-item">
             <div>
               <strong>{t.title}</strong>
               <div className={`status ${t.status}`}>{t.status}</div>
               <small>{new Date(t.createdAt).toLocaleString()}</small>
             </div>
             <div>
-              <Link to={`/tasks/${t._id}`}>Edit</Link>
+              <Link to={`/tasks/${t.id}`}>Edit</Link>
             </div>
           </li>
         ))}

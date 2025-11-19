@@ -33,6 +33,7 @@ export default function Login() {
         {error && <div className="error">{error}</div>}
         <button type="submit">Login</button>
       </form>
+      <div style={{ marginTop: 8 }}><Link to="/forgot">Forgot Password?</Link></div>
       <div>New here? <Link to="/register">Register</Link></div>
     </div>
   );
